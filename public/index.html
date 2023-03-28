@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManUnitedStand</title>
+</head>
+
+<body>
+
+    <header id="header">
+        <h1>Manchester United FotballApp</h1>
+    </header>
+    <button id="buttonEn" type="button">Engelsk</button>
+    <button id="buttonNo" type="button">Norsk</button>
+
+
+    <br><br>
+
+    <label for="selectPos" id="selectPosPlayer">Velg en Posisjon: </label>
+    <select id="selectPos">
+
+        <option value="goalkeeper" id="posGK">Målvakt</option>
+        <option value="defender" id="posCB">Forsvarer</option>
+        <option value="midfielder" id="posCM">Midtbane</option>
+        <option value="forwards" id="posST">Angrep</option>
+    </select>
+
+    <br><br>
+
+    <label for="myInput" id="inputPlayer">Søk etter en spiller: </label>
+    <input type="text" id="myInput" placeholder="Tast inn spiller sitt navn">
+    <button id="btnSearch">Søk</button>
+
+    <br><br>
+
+    <h2 id="playerInformationH2">Spiller informasjon:</h2>
+    <div id="myResult"></div>
+
+
+    <script>
+
+        let myInput = document.getElementById("myInput");
+        let btnSearch = document.getElementById("btnSearch");
+
+
+
+
+        let myArray = [];
+        let results;
+        let selectOption = document.getElementById("selectPos");
+
+        btnSearch.onclick = (e) => {
+            renderSearchResults(searchArray(myInput.value));
+        }
+
+        document.getElementById("selectPos").addEventListener("change", function () {
+            selectOption = this.value;
+            updateArray();
+        });
+
+
+
+        function loadData() {
+            const goalKeeper = JSON.parse(localStorage.getItem("goalKeeperInfo"));
+            const defender = JSON.parse(localStorage.getItem("defenderInfo"));
+            const midfielder = JSON.parse(localStorage.getItem("midfielderInfo"));
+            const forwards = JSON.parse(localStorage.getItem("forwardsInfo"));
+            myArray = goalKeeper.concat(defender, midfielder, forwards);
+            updateArray();
+        }
+
+        function updateArray() {
+            if (selectOption === "goalkeeper") {
+                myArray = JSON.parse(localStorage.getItem("goalKeeperInfo"));
+            } else if (selectOption === "defender") {
+                myArray = JSON.parse(localStorage.getItem("defenderInfo"));
+            } else if (selectOption === "midfielder") {
+                myArray = JSON.parse(localStorage.getItem("midfielderInfo"));
+            } else if (selectOption === "forwards") {
+                myArray = JSON.parse(localStorage.getItem("forwardsInfo"));
+            }
+        }
+
+        function searchArray(query) {
+            let results = [];
+            for (let i = 0; i < myArray.length; i++) {
+                let currentName = myArray[i].name.toLowerCase();
+                if (currentName.includes(query.toLowerCase())) {
+                    //results += `Name: ${myArray[i].name}, Kit Number: ${myArray[i].kitNum}, Country: ${myArray[i].country}<br>`;
+                    results.push(myArray[i]);
+                }
+            }
+
+            return results;
+
+        }
+
+        function renderSearchResults(results) {
+            let resultString = "";
+            for (let i = 0; i < results.length; i++) {
+                resultString += `Name: ${results[i].name},<br> Kit Number: ${results[i].kitNum}, <br> Country: ${results[i].country}<br>`
+            };
+
+            if (results.length === 0) {
+                document.getElementById("myResult").innerHTML = "No results found. Try again! ";
+            } else {
+                document.getElementById("myResult").innerHTML = resultString;
+            }
+
+        }
+
+
+
+        const arrayGoalKeeper = [
+            {
+                name: "David De Gea",
+                kitNum: 1,
+                country: "Spain",
+            },
+            {
+                name: "Tom Heaton",
+                kitNum: 22,
+                country: "England",
+            },
+            {
+                name: "Dean Henderson",
+                kitNum: 26,
+                country: "England",
+            },
+        ];
+
+        const arrayDefender = [
+            {
+                name: "Victor Lindelof",
+                kitNum: 2,
+                country: "Sweden",
+            },
+            {
+                name: "Harry Maguire",
+                kitNum: 5,
+                country: "England",
+            },
+            {
+                name: "Lissandro Martinez",
+                kitNum: 6,
+                country: "Argentina",
+            },
+            {
+                name: "Tyrell Malacia",
+                kitNum: 12,
+                country: "Netherlands",
+            },
+            {
+                name: "Raphael Varane",
+                kitNum: 19,
+                country: "France",
+            },
+            {
+                name: "Diogo Dalot",
+                kitNum: 20,
+                country: "Portugal",
+            },
+            {
+                name: "Luke Shaw",
+                kitNum: 23,
+                country: "England",
+            },
+            {
+                name: "Aaron Wan-Bissaka",
+                kitNum: 29,
+                country: "England",
+            },
+        ];
+
+        const arrayMidfielder = [
+            {
+                name: "Bruno Fernandes",
+                kitNum: 8,
+                country: "Portugal",
+            },
+            {
+                name: "Christian Eriksen",
+                kitNum: 14,
+                country: "Denmark",
+            },
+            {
+                name: "Marcel Sabitzer",
+                kitNum: 15,
+                country: "Austria",
+            },
+            {
+                name: "Casemiro",
+                kitNum: 18,
+                country: "Brazil",
+            },
+            {
+                name: "Fred",
+                kitNum: 17,
+                country: "Brazil",
+            },
+        ];
+
+        const arrayForwards = [
+            {
+                name: "Marcus Rashford",
+                kitNum: 10,
+                country: "England",
+            },
+            {
+                name: "Jadon Sancho",
+                kitNum: 25,
+                country: "England",
+            },
+            {
+                name: "Anthony Martial",
+                kitNum: 9,
+                country: "France",
+            },
+            {
+                name: "Antony",
+                kitNum: 21,
+                country: "Brazil",
+            },
+        ];
+
+
+        localStorage.setItem("goalKeeperInfo", JSON.stringify(arrayGoalKeeper));
+        localStorage.setItem("defenderInfo", JSON.stringify(arrayDefender));
+        localStorage.setItem("midfielderInfo", JSON.stringify(arrayMidfielder));
+        localStorage.setItem("forwardsInfo", JSON.stringify(arrayForwards));
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+    <style>
+        * {
+            margin: 1;
+            font-family: Garamond, serif;
+            font-weight: 500;
+            font-size: 15px;
+            display: hidden;
+            position: relative;
+        }
+
+        header {
+            position: relative;
+            top: 0;
+            left: 0;
+            align-items: center;
+        }
+
+
+
+
+
+
+        h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 40px;
+            font-style: italic;
+            color: #fff;
+
+
+        }
+
+
+
+        h2 {
+            font-family: sans-serif;
+            font-size: 25px;
+            color: rgb(0, 0, 0);
+            border-bottom: 1px solid black;
+        }
+
+
+        body {
+            background: #DA291C !important;
+        }
+    </style>
+
+
+    <script type="module" src="index.mjs"></script>
+
+</body>
+
+</html>

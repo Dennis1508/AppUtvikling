@@ -1,0 +1,16 @@
+{
+  "name": "serverprosjekt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "myserver.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "myserver.mjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jokemaster": "github:mm-207/JokeModuleDemo"
+  }
+}
